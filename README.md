@@ -15,7 +15,7 @@ This project comprises three essential components:
 Clone the project
 
 ```bash
-  git clone https://github.com/omerap12/kafka_twitter_api.git
+  git clone https://github.com/omerap12/kafka_assignment.git
 ```
 
 Go to the project directory
