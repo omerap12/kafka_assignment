@@ -10,7 +10,7 @@ services:
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_SERVER_ID: 1
-      ZOOKEEPER_SERVERS: zoo1:2888:3888
+      ZOOKEEPER_SERVERS: zoo1:2888:3888 #  Specifies the Zookeeper server connection information. It includes the hostname, leader election port (2888), and the quorum port (3888) for Zookeeper.
 
   kafka1:
     image: confluentinc/cp-kafka:7.3.2
@@ -21,19 +21,19 @@ services:
       - "29092:29092"
       - "9999:9999"
     environment:
-      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka1:19092,EXTERNAL://${DOCKER_HOST_IP:-127.0.0.1}:9092,DOCKER://host.docker.internal:29092
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT,DOCKER:PLAINTEXT
-      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
-      KAFKA_ZOOKEEPER_CONNECT: "zoo1:2181"
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka1:19092,EXTERNAL://${DOCKER_HOST_IP:-127.0.0.1}:9092,DOCKER://host.docker.internal:29092 #  Defines the list of addresses that clients can use to connect to Kafka brokers. 
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT,DOCKER:PLAINTEXT # Specifies the security protocol for each listener defined in, allow plain-text communication
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL 
+      KAFKA_ZOOKEEPER_CONNECT: "zoo1:2181" # Specifies the Zookeeper connection string that Kafka brokers use to register and discover other brokers as well as topics and partitions.
       KAFKA_BROKER_ID: 1
-      KAFKA_LOG4J_LOGGERS: "kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO"
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
-      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
-      KAFKA_JMX_PORT: 9999
-      KAFKA_JMX_HOSTNAME: ${DOCKER_HOST_IP:-127.0.0.1}
-      KAFKA_AUTHORIZER_CLASS_NAME: kafka.security.authorizer.AclAuthorizer
-      KAFKA_ALLOW_EVERYONE_IF_NO_ACL_FOUND: "true"
+      KAFKA_LOG4J_LOGGERS: "kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO" # Configures specific Kafka components' log levels. In this case, it sets the log level for the Kafka controller, producer, and state change logger to INFO.
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1 # Specifies the replication factor for the internal Kafka topic used to store consumer offsets. Setting it to 1 means there is only one copy of the data.
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1 # Sets the replication factor for the internal Kafka topic used to store transactional state logs.
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1 # Specifies the minimum in-sync replicas for the transactional state log topic.
+      KAFKA_JMX_PORT: 9999 # Specifies the port for JMX (Java Management Extensions) monitoring of the Kafka broker.
+      KAFKA_JMX_HOSTNAME: ${DOCKER_HOST_IP:-127.0.0.1} # Specifies the hostname or IP address to which JMX clients (such as monitoring tools) should connect. It uses the Docker host's IP address if available; otherwise, it uses 127.0.0.1
+      KAFKA_AUTHORIZER_CLASS_NAME: kafka.security.authorizer.AclAuthorizer #  Specifies the class implementing Kafka's ACL (Access Control List) authorizer. It defines rules for access control to Kafka resources.
+      KAFKA_ALLOW_EVERYONE_IF_NO_ACL_FOUND: "true" # Allows any user to access Kafka resources if no specific ACL (Access Control List) rules are defined.
     depends_on:
       - zoo1
   
