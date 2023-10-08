@@ -21,7 +21,7 @@ Clone the project
 Go to the project directory
 
 ```bash
-  cd kafka_twitter_api
+  cd kafka_assignment
 ```
 
 Start the project
