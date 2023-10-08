@@ -4,13 +4,14 @@ import os
 print("Start consumer")
 time.sleep(5)
 
+# Getting env variables from docker-compose file
 bootstrap_servers = os.environ.get("KAFKA_BOOTSTRAP_SERVERS")
 topic = os.environ.get("TOPIC")
 
 # Configuration for the Kafka consumer
 conf = {
     'bootstrap.servers': bootstrap_servers,
-    'group.id': 'my-consumer-group',
+    'group.id': 'my-consumer-group', # random consumer group
     'auto.offset.reset': 'earliest'  # Start reading the topic from the beginning if no offset is stored
 }
 

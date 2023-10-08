@@ -27,6 +27,6 @@ Go to the project directory
 Start the project
 
 ```bash
-  docker compose up 
+  docker compose up --build
 ```
 
